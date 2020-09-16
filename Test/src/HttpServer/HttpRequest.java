@@ -79,7 +79,7 @@ public class HttpRequest {
     }
 
     public String getParameters(String key){
-        return headers.get(key);
+        return parameters.get(key);
     }
 
     @Override

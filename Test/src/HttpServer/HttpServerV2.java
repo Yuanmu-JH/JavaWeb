@@ -1,5 +1,10 @@
 package HttpServer;
-
+    /*
+        V2版本的版本：
+        1. 整理代码格式更加规范化
+        2. 解析URL中包含的参数（键值对），能够方便的处理用户传来的参数
+        3. 再次演示Cokkie的工作流程
+     */
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -35,10 +40,26 @@ public class HttpServerV2 {
             HttpResponse response = HttpResponse.build(clientSocket.getOutputStream());
             response.setHeader("Content-Type","text/html");
             //2.根据请求计算响应
-            if(request.getUrl().startsWith("/hello")){
+            if(request.getUrl().startsWith("/hello")) {
                 response.setStatus(200);
                 response.setMessage("OK");
                 response.writeBody("<h1>hello</h1>");
+            }else if(request.getUrl().startsWith("/calc")) {
+                //根据参数内容进行计算
+                //先获取到ab的值
+                String aStr = request.getParameters("a");
+                String bStr = request.getParameters("b");
+                int a = Integer.parseInt(aStr);
+                int b = Integer.parseInt(bStr);
+                int result = a + b;
+                response.setStatus(200);
+                response.setMessage("OK");
+                response.writeBody("<h1>result = " + result + "</h1>");
+            }else if(request.getUrl().startsWith("/cookie")){
+                response.setStatus(200);
+                response.setMessage("OK");
+                response.setHeader("Set-Cookie","I'm cookie");
+                response.writeBody("<h1>set cookie</h1>");
             }else{
                 response.setStatus(200);
                 response.setMessage("OK");
