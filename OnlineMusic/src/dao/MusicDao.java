@@ -117,7 +117,7 @@ public class MusicDao {
     ①上传文件本身给服务器
     ②将音乐信息插入至数据库中，在dao层做这一步
      */
-    public int Insert(String title, String singer, String time, String url, int userid) {
+    public int insert(String title, String singer, String time, String url, int userid) {
         Connection connection = null;
         PreparedStatement statement = null;
 
@@ -232,6 +232,8 @@ public class MusicDao {
             String sql = "select * from lovemusic where user_id=? and music_id=?";
             connection = DBUtils.getConnection();
             statement = connection.prepareStatement(sql);
+            statement.setInt(1,user_id);
+            statement.setInt(2,musicID);
             resultSet = statement.executeQuery();
             if (resultSet.next()){
                 return true;
@@ -239,7 +241,7 @@ public class MusicDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DBUtils.getclose(connection,statement,resultSet);
+            DBUtils.getclose(connection,statement,null);
         }
         return false;
     }

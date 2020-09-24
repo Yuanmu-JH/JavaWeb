@@ -26,6 +26,9 @@ DROP TABLE IF EXISTS `user`;
   `email` varchar(50) NOT NULL
    );
 
+   INSERT INTO user(username,password,age,gender,email) VALUES("yuanmu","0123","18","女","943030051@qq.com");
+   INSERT INTO user(username,password,age,gender,email) VALUES("liule","0517","20","女","1244774165@qq.com");
+
 
 DROP TABLE IF EXISTS `lovemusic`;
 CREATE TABLE `lovemusic` (
@@ -34,4 +37,4 @@ CREATE TABLE `lovemusic` (
  `music_id` int(11) NOT NULL
  );
 
-INSERT INTO user(username,password,age,gender,email) VALUES("yuanmu","0123","18","女","943030051@qq.com");
+
