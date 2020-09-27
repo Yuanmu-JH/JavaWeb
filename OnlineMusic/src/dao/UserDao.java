@@ -61,7 +61,6 @@ public class UserDao {
             statement.setString(3,user.getGender());
             statement.setInt(4,user.getAge());
             statement.setString(5,user.getEmail());
-
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -71,4 +70,30 @@ public class UserDao {
         }
     }
 
+    public User selectByName(String name){
+        Connection connection = DBUtils.getConnection();
+        String sql = "select * from user where userId = ?";
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.prepareStatement(sql);
+            statement.setString(1,name);
+            //3. 执行sql
+            resultSet = statement.executeQuery();
+            //4. 遍历结果集合,因为预期name在数据库中不能重复，所以在此处查找最多只能查出一条记录所以是if
+            if(resultSet.next()){
+                User user = new User();
+                user.setId(resultSet.getInt("userId"));
+                user.setUsername(resultSet.getString("name"));
+                user.setPassword(resultSet.getString("password"));
+                return user;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            //5. 释放连接
+            DBUtils.getclose(connection,statement,resultSet);
+        }
+        return null;
+    }
 }
